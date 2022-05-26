@@ -36,7 +36,7 @@ const useStyles = makeStyles(() => ({
 function InputLayout(props) {
   const { setMainQuery } = props;
   const classes = useStyles();
-  const [query, setQuery] = useState('SELECT * FROM customers;');
+  const [query, setQuery] = useState('');
   const [customQuery, setCustomQuery] = useState('');
 
   const handleQueryChange = (event) => {
@@ -77,7 +77,7 @@ function InputLayout(props) {
       <Box className={classes.flexBox}>
         <TextField
           className={classes.textArea}
-          placeholder="Type you query here"
+          placeholder="Select query or Type you query here"
           multiline
           rows={8}
           maxRows={10}

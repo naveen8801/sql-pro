@@ -14,11 +14,11 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'space-around',
   },
   leftDiv: {
-    width: '40%',
+    width: '36%',
     height: 'calc(100vh - 140px)',
   },
   rightDiv: {
-    width: '56%',
+    width: '60%',
     height: 'calc(100vh - 140px)',
   },
 }));
@@ -28,10 +28,8 @@ function MainLayout() {
   const [CSVData, setCSVData] = useState([]);
   const [mainQuery, setMainQuery] = useState({
     isCustomQuery: false,
-    query: 'SELECT * FROM customers;',
+    query: '',
   });
-
-  console.log(mainQuery);
 
   function csvJSON(raw) {
     fetch(raw)
@@ -65,7 +63,7 @@ function MainLayout() {
           <InputLayout setMainQuery={setMainQuery} />
         </div>
         <div className={classes.rightDiv}>
-          <OutputLayout data={csvJSON} query={mainQuery} />
+          <OutputLayout data={CSVData} setMainQuery={mainQuery} />
         </div>
       </div>
     </div>

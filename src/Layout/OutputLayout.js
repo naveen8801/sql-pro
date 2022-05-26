@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Card, Tabs, Tab, Box } from '@material-ui/core';
+import TableView from '../components/TableView';
 
 const tabContent = [
   {
@@ -21,6 +22,7 @@ const useStyles = makeStyles(() => ({
   root: {
     width: '100%',
     height: '100%',
+    overflow: 'auto',
   },
   flexBox: {
     display: 'flex',
@@ -29,20 +31,56 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function OutputLayout() {
+function OutputLayout(props) {
   const classes = useStyles();
+  const { data, setMainQuery } = props;
   const [tabValue, setTabValue] = useState('Results');
+  const [resultData, setResultData] = useState([]);
+
+  useEffect(() => {
+    calculateQueryResults();
+  }, [setMainQuery]);
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
   };
 
+  const calculateQueryResults = () => {
+    var n = 0;
+    if (setMainQuery.isCustomQuery) {
+      n = 10;
+    } else {
+      n = Math.floor(Math.random() * 9);
+    }
+    var shuffled = data.sort(function () {
+      return 0.5 - Math.random();
+    });
+    var result = shuffled.slice(0, n);
+    setResultData(result);
+  };
+  
   const renderTabContent = () => {
     switch (tabValue) {
       case `Results`:
-        return <>Results</>;
+        return (
+          <Box
+            style={{
+              width: '95%',
+            }}
+          >
+            <TableView setMainQuery={setMainQuery} rows={resultData} />
+          </Box>
+        );
       case `Default Data`:
-        return <>Default Data</>;
+        return (
+          <Box
+            style={{
+              width: '95%',
+            }}
+          >
+            <TableView rows={data} />
+          </Box>
+        );
       case `Download`:
         return <>Download</>;
       default:
@@ -59,6 +97,8 @@ function OutputLayout() {
           aria-label="ant example"
           centered
           style={{ width: '100%', margin: '0.5rem' }}
+          textColor="primary"
+          indicatorColor="primary"
         >
           {tabContent.map((item, index) => {
             return <Tab key={index} value={item.value} label={item.label} />;
