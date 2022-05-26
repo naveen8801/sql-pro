@@ -11,14 +11,25 @@ const useStyles = makeStyles(() => ({
     width: '100%',
     marginTop: '1.5rem',
     justifyContent: 'space-around',
+    ['@media (max-width:700px)']: {
+      flexDirection: 'column',
+    },
   },
   leftDiv: {
     width: '36%',
     height: 'calc(100vh - 140px)',
+    ['@media (max-width:700px)']: {
+      width: '100%',
+      height: '350px',
+    },
   },
   rightDiv: {
     width: '60%',
     height: 'calc(100vh - 140px)',
+    ['@media (max-width:700px)']: {
+      width: '100%',
+      height: '450px',
+    },
   },
 }));
 
