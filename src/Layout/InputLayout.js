@@ -7,6 +7,8 @@ import {
   Select,
   MenuItem,
   Box,
+  TextField,
+  Button,
 } from '@material-ui/core';
 import { getQueryList } from '../utils/QueryList';
 
@@ -14,20 +16,38 @@ const useStyles = makeStyles(() => ({
   root: {
     width: '100%',
     height: '100%',
+    overflow: 'auto',
   },
   flexBox: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    flexWrap: 'nowrap',
+  },
+  textArea: {
+    width: '100%',
+    margin: '0.5rem',
+    backgroundColor: 'black',
+    border: '2px solid black',
+    borderRadius: '8px',
   },
 }));
 
-function InputLayout() {
+function InputLayout(props) {
+  const { setMainQuery } = props;
   const classes = useStyles();
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState('SELECT * FROM customers;');
+  const [customQuery, setCustomQuery] = useState('');
 
   const handleQueryChange = (event) => {
     setQuery(event.target.value);
+  };
+
+  const handleSendButton = () => {
+    setMainQuery({
+      isCustomQuery: query === 'Custom Query',
+      query: query === 'Custom Query' ? customQuery : query,
+    });
   };
 
   return (
@@ -54,7 +74,42 @@ function InputLayout() {
           </Select>
         </FormControl>
       </Box>
-      <Box className={classes.flexBox}></Box>
+      <Box className={classes.flexBox}>
+        <TextField
+          className={classes.textArea}
+          placeholder="Type you query here"
+          multiline
+          rows={8}
+          maxRows={10}
+          value={query !== 'Custom Query' ? query : customQuery}
+          onChange={(e) => setCustomQuery(e.target.value)}
+          inputProps={{
+            min: 0,
+            style: {
+              color: 'white',
+              padding: '0.5rem',
+              fontFamily: 'Source Code Pro',
+              fontSize: '14px',
+            },
+          }}
+          disabled={query !== 'Custom Query'}
+        />
+      </Box>
+      <Box
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+          margin: '1rem',
+        }}
+      >
+        <Button
+          style={{ backgroundColor: '#354259', color: 'white' }}
+          onClick={handleSendButton}
+        >
+          Send
+        </Button>
+      </Box>
     </Card>
   );
 }

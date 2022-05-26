@@ -26,6 +26,12 @@ const useStyles = makeStyles(() => ({
 function MainLayout() {
   const classes = useStyles();
   const [CSVData, setCSVData] = useState([]);
+  const [mainQuery, setMainQuery] = useState({
+    isCustomQuery: false,
+    query: 'SELECT * FROM customers;',
+  });
+
+  console.log(mainQuery);
 
   function csvJSON(raw) {
     fetch(raw)
@@ -56,10 +62,10 @@ function MainLayout() {
       <NavBar />
       <div className={classes.root}>
         <div className={classes.leftDiv}>
-          <InputLayout />
+          <InputLayout setMainQuery={setMainQuery} />
         </div>
         <div className={classes.rightDiv}>
-          <OutputLayout data={csvJSON} />
+          <OutputLayout data={csvJSON} query={mainQuery} />
         </div>
       </div>
     </div>
