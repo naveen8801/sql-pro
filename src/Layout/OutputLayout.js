@@ -59,7 +59,6 @@ function OutputLayout(props) {
     setResultData(result);
     let output = JSON.stringify(result, null, 4);
     const blob = new Blob([output], { type: 'json' });
-    console.log(output);
     const fileDownloadUrl = URL.createObjectURL(blob);
     setDownloadLink(fileDownloadUrl);
   };
