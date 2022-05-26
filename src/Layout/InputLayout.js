@@ -43,7 +43,8 @@ function InputLayout(props) {
     setQuery(event.target.value);
   };
 
-  const handleSendButton = () => {
+  const handleSendButton = (e) => {
+    e.preventDefault();
     setMainQuery({
       isCustomQuery: query === 'Custom Query',
       query: query === 'Custom Query' ? customQuery : query,
@@ -105,7 +106,7 @@ function InputLayout(props) {
       >
         <Button
           style={{ backgroundColor: '#354259', color: 'white' }}
-          onClick={handleSendButton}
+          onClick={(e) => handleSendButton(e)}
         >
           Send
         </Button>

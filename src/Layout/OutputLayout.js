@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { Card, Tabs, Tab, Box } from '@material-ui/core';
+import { Card, Tabs, Tab, Box, Button } from '@material-ui/core';
 import TableView from '../components/TableView';
 
 const tabContent = [
@@ -36,7 +36,7 @@ function OutputLayout(props) {
   const { data, setMainQuery } = props;
   const [tabValue, setTabValue] = useState('Results');
   const [resultData, setResultData] = useState([]);
-
+  const [downloadLink, setDownloadLink] = useState('');
   useEffect(() => {
     calculateQueryResults();
   }, [setMainQuery]);
@@ -57,8 +57,18 @@ function OutputLayout(props) {
     });
     var result = shuffled.slice(0, n);
     setResultData(result);
+    let output = JSON.stringify(result, null, 4);
+    const blob = new Blob([output], { type: 'json' });
+    console.log(output);
+    const fileDownloadUrl = URL.createObjectURL(blob);
+    setDownloadLink(fileDownloadUrl);
   };
-  
+
+  const handleDownloadButton = () => {
+    if (resultData.length > 0) {
+    }
+  };
+
   const renderTabContent = () => {
     switch (tabValue) {
       case `Results`:
@@ -82,7 +92,26 @@ function OutputLayout(props) {
           </Box>
         );
       case `Download`:
-        return <>Download</>;
+        return (
+          <Box
+            style={{
+              width: '95%',
+              display: 'flex',
+              justifyContent: 'center',
+              margin: '1rem',
+            }}
+          >
+            <Button
+              download="result.json"
+              href={downloadLink}
+              target="__blank"
+              style={{ backgroundColor: '#354259', color: 'white' }}
+              onClick={handleDownloadButton}
+            >
+              Download Results
+            </Button>
+          </Box>
+        );
       default:
         return '';
     }
